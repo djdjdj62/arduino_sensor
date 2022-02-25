@@ -1,0 +1,20 @@
+# arduino_sensor
+#利用可變電阻調整LED燈亮度
+#接線參考https://hackmd.io/@yizhewang/SkGyJJv4N
+
+int sensorPin = A0;    //類比輸入的PIN腳
+int ledValue = 0;      // 類比輸出的PIN腳，接到LED的正極
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(A5,OUTPUT);
+}
+
+void loop() {
+  ledValue = analogRead(sensorPin);       //a0讀取類比(可變電阻的值)輸入的值會得到0~1023
+  ledValue = map(ledValue,0,1023,0,100);  //將值0~1023轉化成0~100
+  Serial.println(ledValue);
+  //digitalWrite(3,ledValue); 
+  analogWrite(3,ledValue);
+  delay(1000);
+}
