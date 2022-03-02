@@ -1,0 +1,29 @@
+# arduino_sensor
+#音頻表: https://hackmd.io/xMR2C1f0QqG-X4wrN0mJEA
+void setup(){
+}
+
+void loop(){
+   tone(8,523); //DO中
+   delay(300);
+   tone(8,659); //Me中
+   delay(300);
+   tone(8,754); //So中
+   delay(300);
+   tone(8,1046); //Do高
+   delay(300);
+   noTone(8); //停止
+   delay(1000);
+   
+   tone(8,1046); //Do高
+   delay(300);
+   tone(8,754); //So中
+   delay(300);
+   tone(8,659); //Me中
+   delay(300);
+   tone(8,523); //DO中
+   delay(300);
+   noTone(8); //停止
+   
+   delay(1000);
+}
