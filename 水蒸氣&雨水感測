@@ -1,0 +1,18 @@
+# arduino_sensor
+//濕度數值0~1023
+
+
+int SIGNAL_PIN = A0;
+int water_value ;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  water_value = analogRead(SIGNAL_PIN);
+  Serial.println(water_value);
+  delay(100);
+}
