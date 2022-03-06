@@ -1,0 +1,21 @@
+# arduino_sensor
+#define led_pin 11
+#define fsr_pin A0
+//此壓力感應為0~5公斤，數值用0~1023呈現
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(led_pin, OUTPUT);
+}
+
+void loop()
+{
+  int data_value = analogRead(fsr_pin); // 讀取FSR
+  int fsr_value = map(data_value, 0, 1023, 0, 5000); // 從0~1023映射到0~5000公克
+  int led_value = map(data_value, 0, 1023, 0, 255); // 從0~1023映射到0~255
+  analogWrite(led_pin, led_value); // 改變LED亮度
+  Serial.println(fsr_value);
+  Serial.println(led_value);
+  Serial.println("-------------");
+  delay(500);
+}
