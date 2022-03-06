@@ -1,0 +1,52 @@
+# arduino_sensor
+//參考來源: https://shop.mirotek.com.tw/arduino/arduino-st7735/
+#include <Adafruit_GFX.h>  //核心圖形庫
+#include <Adafruit_ST7735.h>  //Hardware-specific library for ST7735
+#include <Adafruit_ST7789.h>  //Hardware-specific library for ST7789
+#include <Fonts/FreeMonoBold9pt7b.h>  //字型FreeMonoBold9pt7b
+#include <Fonts/FreeSansBold9pt7b.h>  //字型FreeSansBold9pt7b
+#include <Fonts/FreeSerif9pt7b.h>  //字型FreeSerif9pt7b
+#include <SPI.h> 
+
+#define TFT_CS  10 // TFT CS PIN腳
+#define TFT_DC   8 // TFT DC(A0、RS) PIN腳
+#define TFT_RST  9 // TFT RES(Reset) PIN腳
+
+
+Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+
+
+void setup(void) {
+  
+  tft.initR(INITR_BLACKTAB);      // Init ST7735S chip, black tab
+
+  tft.setRotation(1);  //螢幕轉向
+  tft.fillScreen(ST77XX_BLACK);  //設定螢幕背景為黑色
+  tft.setCursor(6, 15);  //設定文字游標開始位置
+  tft.setTextColor(ST77XX_WHITE);  //設定文字顏色
+  tft.setFont(&FreeMonoBold9pt7b);  //字型
+  tft.print(" Hi Mirotek !");  //顯示文字
+  tft.setCursor(20, 52);
+  tft.setTextColor(ST77XX_RED);
+  tft.setFont(&FreeSansBold9pt7b);
+  tft.print("Color Display");
+  tft.setCursor(3, 80);
+  tft.setTextColor(ST77XX_GREEN);
+  tft.setFont(&FreeSerif9pt7b); 
+  tft.print("shop.mirotek.com.tw");
+  mediabuttons();  //繪制幾何圖形
+
+}
+
+void mediabuttons() {
+  tft.drawRect(25, 95, 30, 30, ST77XX_MAGENTA); //畫一個方框 x,y,w,h,顏色值
+  tft.fillRect(28, 98, 24, 24, ST77XX_MAGENTA); //填滿方形 x,y,w,h,顏色值
+  tft.drawCircle(80, 110, 15, ST77XX_BLUE);  //畫一個空的圓框  x,y,radius,顏色值 
+  tft.fillCircle(80, 110, 12, ST77XX_BLUE);  //填滿圓形 x,y,radius,顏色值
+  tft.drawTriangle(105, 125, 125, 95, 145, 125, ST77XX_YELLOW);//給予三角形的三個頂點座標點，以及顏色值。
+  tft.fillTriangle(110, 122, 125, 100, 140, 122, ST77XX_YELLOW);//給予三角形的三個頂點座標點，以及顏色值。
+}
+
+void loop() {
+  
+}
