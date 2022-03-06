@@ -1,0 +1,22 @@
+# arduino_sensor
+//LingShun Lab
+//可以透過旋轉電阻來設定D0輸出來控制LED燈"土壤不夠濕就發光"
+//感覺拿來當無泡水檢測比較準....
+
+#define Moisture A0 //定義AO 引腳 為 IO-A0
+//#define DO 7        //定義DO 引腳 為 IO-7
+
+void setup() {
+  pinMode(Moisture, INPUT);//定義A0為輸入模式
+  //pinMode(DO, INPUT); //可以直接將輸出的D0皆在LED上作為正極輸入
+  Serial.begin(9600);
+}
+
+void loop() {
+  //串列埠返回測量資料
+  Serial.print("Moisture= ");
+  Serial.print(analogRead(Moisture));//讀取AO的數值
+  //Serial.print(" |  DO=");
+  Serial.println(digitalRead(DO));//讀取DO的數值
+  delay(1000);
+}
