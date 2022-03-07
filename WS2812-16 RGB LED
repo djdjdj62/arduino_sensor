@@ -1,0 +1,41 @@
+# arduino_sensor
+//需要安裝的庫 1. FastLED   2. FastLED_NeoPixel
+//範例跑FastLED_NeoPixel 的，記得修改 Led 燈數 以及 pin 腳
+//參考: https://shop.mirotek.com.tw/iot/start-kit/iot-start-4/
+
+#include <FastLED_NeoPixel.h>
+
+ // Which pin on the Arduino is connected to the LEDs?-------PIN 腳
+#define DATA_PIN 6
+
+// How many LEDs are attached to the Arduino?----- 燈數
+#define NUM_LEDS 16 
+
+// LED brightness, 0 (min) to 255 (max)
+#define BRIGHTNESS 50
+
+CRGB leds[NUM_LEDS];
+FastLED_NeoPixel_Variant strip(leds, NUM_LEDS);
+
+
+void setup() {
+
+	strip.begin(FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS));
+	strip.setBrightness(BRIGHTNESS);
+}
+
+void loop() {
+	rainbow(10);  // run a rainbow animation, 10 ms between each of the 256 colors
+}
+
+void rainbow(unsigned long wait) {
+	// iterate through all 8-bit hues, using 16-bit values for granularity
+	for (unsigned long firstPixelHue = 0; firstPixelHue < 65536; firstPixelHue += 256) {
+		for (unsigned int i = 0; i < strip.numPixels(); i++) {
+			unsigned long pixelHue = firstPixelHue + (i * 65536UL / strip.numPixels()); // vary LED hue based on position
+			strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));  // assign color, using gamma curve for a more natural look
+		}
+		strip.show();
+		delay(wait);
+	}
+}
