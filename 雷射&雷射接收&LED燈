@@ -1,0 +1,31 @@
+# arduino_sensor
+//參考: https://www.itread01.com/content/1547638417.html
+
+int LED = 13;                             //定義LED引腳為13(即板子上的LED燈)
+int LaserSensor = 2;                      //定義鐳射接收模組訊號引腳為2
+int SensorReading = HIGH;                 //定義鐳射接收模組訊號引腳為高電平
+int Laser = 12;                           //定義鐳射發射模組訊號引腳為12
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(LED, OUTPUT);                   //定義LED為輸出模式
+  pinMode(Laser, OUTPUT);                 //定義Laser為輸出模式
+  pinMode(LaserSensor, INPUT);            //定於LaserSensor為輸入模式
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  digitalWrite(Laser, HIGH);             //給Laser高電平，鐳射發射模式發射鐳射
+  delay(200);                            //延時200毫秒
+  
+  SensorReading = digitalRead(LaserSensor);  //讀取LaserSensor(鐳射接收模組訊號引腳)的當前狀態
+  if(SensorReading == LOW)                   //如果等於電平
+  {
+    digitalWrite(LED, HIGH);                      //則燈亮(發射與接收之間有東西擋住)
+    
+  }
+  else
+  {
+    digitalWrite(LED, LOW);                      //否則燈滅(發射與接收之間沒有障礙物)
+  }
+}
