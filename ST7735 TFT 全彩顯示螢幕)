@@ -23,7 +23,7 @@ void setup(void) {
 
   tft.setRotation(1);  //螢幕轉向
   tft.fillScreen(ST77XX_BLACK);  //設定螢幕背景為黑色
-  tft.setCursor(6, 15);  //設定文字游標開始位置
+  tft.setCursor(6, 15);  //設定文字游標開始位置     螢幕:160x128
   tft.setTextColor(ST77XX_WHITE);  //設定文字顏色
   tft.setFont(&FreeMonoBold9pt7b);  //字型
   tft.print(" Hi Mirotek !");  //顯示文字
