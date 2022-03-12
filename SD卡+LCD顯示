@@ -1,0 +1,129 @@
+# arduino_sensor
+
+#include <SPI.h>
+//#include <SD.h>
+#include "SdFat.h"
+
+#include <Adafruit_GFX.h>  //核心圖形庫
+#include <Adafruit_ST7735.h>  //Hardware-specific library for ST7735
+#include <Fonts/FreeMonoBold9pt7b.h>  //字型FreeMonoBold9pt7b
+#include <Fonts/FreeSansBold9pt7b.h>  //字型FreeSansBold9pt7b
+#include <Fonts/FreeSerif9pt7b.h>  //字型FreeSerif9pt7b
+
+#define TFT_CS  6 // TFT CS PIN腳
+#define TFT_DC  5 // TFT DC(A0、RS) PIN腳
+#define TFT_RST 4 // TFT RES(Reset) PIN腳
+
+Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+SdFat SD;
+
+char input_txt;
+
+char cmd[20];
+int i = 0;
+    
+//CS腳位
+#define SD_CS_PIN 2
+File myFile;
+
+void setup() {
+  Serial.begin(9600);
+  
+  Serial.setTimeout(10000); // 設定為每10毫秒結束一次讀取(數字愈小愈快)
+  
+  tft.initR(INITR_BLACKTAB);      // Init ST7735S chip, black tab
+  Serial.print("Initializing SD card...");
+
+  //判斷SD模組初始化是否成功
+  if (!SD.begin(SD_CS_PIN)) {
+    Serial.println("initialization failed!");
+    return;
+  }
+  Serial.println("initialization done.");
+
+  //打開一個檔名為test.txt的檔案，模式為寫入(FILE_WRITE)
+  //若檔案不存在，就會自動建議一個新的檔案
+  myFile = SD.open("tt.txt", FILE_WRITE);
+
+  // 如果成功打開，就寫入文字
+  if (myFile) {
+    Serial.print("Writing to tt.txt...");
+    myFile.println("茄子加油...");
+    // 關閉檔案
+    myFile.close();
+    Serial.println("done.");
+  } else {
+    // 如果無法開啟檔案，就在監控視窗顯示訊息
+    Serial.println("error opening test.txt");
+  }
+
+  //以下是讀取的部份
+  //再打開test.txt
+  myFile = SD.open("tt.txt");
+  if (myFile) {
+    Serial.println("tt.txt:");
+    //一直讀取檔案內容，直到沒有為止
+    while (myFile.available()) {
+      Serial.write(myFile.read()); //把讀到的內容顯示在監控視窗
+    }
+    // 關閉檔案
+    myFile.close();
+  } else {
+    // 如果無法開啟檔案，就在監控視窗顯示訊息
+    Serial.println("error opening test.txt");
+  }
+  //SD.remove("tt.txt"); //刪除檔案
+   
+  tft.setRotation(1);  //螢幕轉向
+  tft.fillScreen(ST77XX_BLACK);  //設定螢幕背景為黑色
+  tft.setCursor(6, 15);  //設定文字游標開始位置
+  tft.setTextColor(ST77XX_RED);  //設定文字顏色
+  tft.setFont(&FreeMonoBold9pt7b);  //字型
+  tft.print(" o__Oa ");  //顯示文字
+  
+}
+
+
+
+void get_string(char& input_txt) {
+                    
+    boolean gotString = false;
+    char inChar;
+    char inString[20]; //__________最多輸入20________
+    byte j=0;
+    
+    while (!gotString) {
+          if (Serial.available()) {
+              inChar = Serial.read();
+              
+              if (inChar == ' ') { //_________輸入完後按下"空格"做結尾_______
+                  gotString = true;
+              }
+              inString[j] = inChar;
+              cmd[j] = inChar;
+              j += 1;
+          }
+    }
+    Serial.println(inString);  
+    Serial.println(cmd);  
+    if( j!= 0){
+      Serial.println(cmd);  
+      myFile = SD.open("tt.txt", FILE_WRITE);
+      myFile.println(cmd);
+      myFile.close();
+    }
+
+    //SD.remove("tt.txt"); //刪除檔案
+}
+void loop() {
+  
+  if(Serial.available()){
+    get_string(input_txt);
+  }
+  tft.setCursor(20, 52); //20,50
+  tft.setTextColor(ST77XX_WHITE);
+  tft.setFont(&FreeSerif9pt7b);
+  tft.print(cmd);
+  
+  delay(1000);
+}
