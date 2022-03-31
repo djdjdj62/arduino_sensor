@@ -7,8 +7,8 @@
 const byte RECV_PIN = 11;
 const byte RED_LED = 7;
 
-IRrecv irrecv(RECV_PIN);
-IRsend irsend;
+IRrecv irrecv(RECV_PIN);    //IR接收的庫
+IRsend irsend;              //IR發射的庫
 decode_results results;
 
 //每一組紅外線編碼都略有不同，需自行嘗試對應數值
