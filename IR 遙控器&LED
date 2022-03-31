@@ -1,11 +1,14 @@
-# arduino_sensor
 
 #include <IRremote.h>
 //需要IR函式庫" Arduino-IRremote " 建議使用2.23版本
-int RECV_PIN = 11;
-int RED_LED = 7;
+
+//IR_SEND_PIN = 3 是寫在 irSend.cpp 裡的文件預設
+
+const byte RECV_PIN = 11;
+const byte RED_LED = 7;
 
 IRrecv irrecv(RECV_PIN);
+IRsend irsend;
 decode_results results;
 
 //每一組紅外線編碼都略有不同，需自行嘗試對應數值
@@ -37,7 +40,7 @@ void setup()
 
 void loop() {
   if (irrecv.decode(&results)) {
-    //Serial.println(results.value ,HEX);
+    Serial.println(results.value ,HEX);
     switch(results.value){
       case 16753245:
         Serial.println("->  1 !");
@@ -77,6 +80,8 @@ void loop() {
         break;
       case 16718055:
         Serial.println("->  UP !");
+        irsend.sendNEC(0x1777433C, 32);               //send_看你是哪個廠牌規格___
+        irrecv.enableIRIn();                          // 發送完重新設為接收模式
         break;
       case 16730805:
         Serial.println("->  DOWN !");
