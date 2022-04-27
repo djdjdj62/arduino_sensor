@@ -1,5 +1,6 @@
 # arduino_sensor
-//參考來源: https://shop.mirotek.com.tw/arduino/arduino-st7735/
+//[ arduino_uno ] 參考來源: https://shop.mirotek.com.tw/arduino/arduino-st7735/
+//[ arduino_ESP32-s ]參考來源: https://www.twblogs.net/a/5ee41c11edf5522250e468ca
 //所需函示庫及用法: https://hackmd.io/0uuoc36ETM2GfUJAGSM1aw
 #include <Adafruit_GFX.h>  //核心圖形庫
 #include <Adafruit_ST7735.h>  //Hardware-specific library for ST7735
