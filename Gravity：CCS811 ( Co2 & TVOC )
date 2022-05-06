@@ -1,0 +1,63 @@
+# arduino_sensor
+#需要安裝庫: DFRobot_BMX160 , DFRobot_CCS811
+#要注意接腳: 感測器上的 "C" = SCL , "D" = SDA , ESP32-s上預設的腳位對應為 SCL => GPIO 22 , SDA => GPIO 21 
+#參考網站: https://wiki.dfrobot.com.cn/_SKU_SEN0318_Gravity_CCS811%E6%95%B0%E5%AD%97%E7%A9%BA%E6%B0%94%E8%B4%A8%E9%87%8F%E4%BC%A0%E6%84%9F%E5%99%A8
+#官網: https://github.com/DFRobot/DFRobot_CCS811
+
+#校正取得 基線函數 後放入 sensor.writeBaseLine()
+
+#校正程式碼(取得基線函數，需要等數值穩定約半小時)
+
+#include "DFRobot_CCS811.h"
+DFRobot_CCS811 CCS811;
+
+void setup(void)
+{
+    Serial.begin(115200);
+    /*Wait for the chip to be initialized completely, and then exit*/
+    while(CCS811.begin() != 0){
+        Serial.println("failed to init chip, please check if the chip connection is fine");
+        delay(1000);
+    }
+}
+void loop() {
+    if(CCS811.checkDataReady() == true){
+        Serial.println(CCS811.readBaseLine(), HEX);
+
+    } else {
+        Serial.println("Data is not ready!");
+    }
+    delay(1000);
+}
+
+
+#校正完後可以開始執行(數值更準
+
+#include "DFRobot_CCS811.h"
+
+DFRobot_CCS811 CCS811;
+
+void setup(void)
+{
+    Serial.begin(115200);
+    /*Wait for the chip to be initialized completely, and then exit*/
+    while(CCS811.begin() != 0){
+        Serial.println("failed to init chip, please check if the chip connection is fine");
+        delay(1000);
+    }
+}
+void loop() {
+    if(CCS811.checkDataReady() == true){
+        Serial.print("CO2: ");
+        Serial.print(CCS811.getCO2PPM());
+        Serial.print("ppm, TVOC: ");
+        Serial.print(CCS811.getTVOCPPB());
+        Serial.println("ppb");
+
+    } else {
+        Serial.println("Data is not ready!");
+    }
+
+    CCS811.writeBaseLine(0x11C0);
+    delay(1000);
+}
