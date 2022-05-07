@@ -1,0 +1,72 @@
+# arduino_sensor
+#需要兩個庫: 1. SoftwareSerial.h ,在esp32-s上為 "EspSoftwareSerial" 。以及 2. TinyGPSPlus 有些文章叫他 TinyGPS++ 。
+
+#參考網站: 1. https://randomnerdtutorials.com/guide-to-neo-6m-gps-module-with-arduino/
+           2. https://www.yiboard.com/thread-777-1-1.html
+           
+#pin腳: RX , TX 導入SoftwareSerial後在ESP32上可以隨意設置。
+
+#取得的資料詳情請參閱HACKMD筆記
+
+#include <SoftwareSerial.h>
+
+               //(RX, TX)
+SoftwareSerial ss(32, 33);
+
+void setup(){
+
+Serial.begin(9600);
+ss.begin(9600);
+
+}
+
+void loop(){
+
+  while (ss.available() > 0){
+  
+  byte gpsData = ss.read();
+  
+  Serial.write(gpsData);
+  }
+}
+////////////////////////////////////////////////////////////////////////
+#整理出只有經緯度的CODE
+
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
+
+static const int RXPin = 32, TXPin = 33;
+static const uint32_t GPSBaud = 9600;
+
+// The TinyGPS++ object
+TinyGPSPlus gps;
+
+// The serial connection to the GPS device
+SoftwareSerial ss(RXPin, TXPin);
+
+void setup(){
+  Serial.begin(9600);
+  ss.begin(GPSBaud);
+}
+
+int gate = 0;
+
+void loop(){
+  // This sketch displays information every time a new sentence is correctly encoded.
+  while (ss.available() > 0 && gate == 0){
+    gps.encode(ss.read());
+    if (gps.location.isUpdated()){
+      gate = 1;
+      Serial.print("Latitude(緯度) = "); 
+      Serial.print(gps.location.lat(), 6);
+      Serial.print(" Longitude(經度)= "); 
+      Serial.println(gps.location.lng(), 6);
+    }
+  }
+
+  if (gate == 1){
+    delay(10000);
+    gate = 0;
+  }
+  
+}
