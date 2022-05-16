@@ -42,7 +42,7 @@ static const uint32_t GPSBaud = 9600;
 TinyGPSPlus gps;
 
 // The serial connection to the GPS device
-SoftwareSerial ss(RXPin, TXPin);
+SoftwareSerial ss( TXPin ,RXPin );
 
 void setup(){
   Serial.begin(9600);
@@ -83,7 +83,7 @@ static const uint32_t GPSBaud = 9600;
 TinyGPSPlus gps;
 
 // The serial connection to the GPS device
-SoftwareSerial ss(RXPin, TXPin);
+SoftwareSerial ss( TXPin , RXPin );
 
 void setup(){
   Serial.begin(9600);
