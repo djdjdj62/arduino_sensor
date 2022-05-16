@@ -35,7 +35,7 @@ void loop(){
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 
-static const int RXPin = 32, TXPin = 33;
+static const int RXPin = 33, TXPin = 32;
 static const uint32_t GPSBaud = 9600;
 
 // The TinyGPS++ object
@@ -76,7 +76,7 @@ void loop(){
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 
-static const int RXPin = 32, TXPin = 33;
+static const int RXPin = 33, TXPin = 32;
 static const uint32_t GPSBaud = 9600;
 
 // The TinyGPS++ object
