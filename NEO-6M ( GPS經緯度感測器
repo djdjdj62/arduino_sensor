@@ -36,7 +36,7 @@ void loop(){
 #include <SoftwareSerial.h>
 
 static const int RXPin = 33, TXPin = 32;
-static const uint32_t GPSBaud = 9600;
+static const uint32_t GPSBaud = 9600; //這個是gps晶片固定的(不能改
 
 // The TinyGPS++ object
 TinyGPSPlus gps;
