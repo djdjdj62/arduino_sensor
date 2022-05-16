@@ -10,7 +10,7 @@
 
 #include <SoftwareSerial.h>
 
-               //(RX, TX)
+               //(TX, RX)
 SoftwareSerial ss(32, 33);
 
 void setup(){
