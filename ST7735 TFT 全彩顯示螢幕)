@@ -10,9 +10,15 @@
 #include <Fonts/FreeSerif9pt7b.h>  //字型FreeSerif9pt7b
 #include <SPI.h> 
 
+//ARDUINO_UNO:
 #define TFT_CS  10 // TFT CS PIN腳
 #define TFT_DC   8 // TFT DC(A0、RS) PIN腳
 #define TFT_RST  9 // TFT RES(Reset) PIN腳
+//ESP32-S:
+//#define TFT_CS  14 TFT CS PIN腳
+//#define TFT_DC   4 TFT DC(A0、RS) PIN腳
+//#define TFT_RST  2 TFT RES(Reset) PIN腳
+
 
 
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
