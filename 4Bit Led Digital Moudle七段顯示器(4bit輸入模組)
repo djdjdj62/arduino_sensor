@@ -12,6 +12,7 @@ void setup ()
   pinMode(SCLK,OUTPUT);
   pinMode(RCLK,OUTPUT);
   pinMode(DIO,OUTPUT); //让三个脚都是输出状态
+  Serial.begin(115200);
 }
 void loop()
 {
